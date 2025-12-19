@@ -1,0 +1,12 @@
+django==4.2
+djangorestframework
+pymysql
+redis
+celery
+beautifulsoup4   # Để crawl dữ liệu đơn giản ban đầu
+requests         # Gửi request HTTP
+underthesea      # Xử lý tiếng Việt
+scikit-learn     # Model Machine Learning cơ bản
+pandas           # Xử lý dữ liệu bảng
+joblib           # Lưu/Load model
+python-dotenv    # Quản lý biến môi trường
