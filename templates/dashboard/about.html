@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+
+{% block title %}Tài liệu & Hệ thống{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+
+    <!-- HEADER -->
+    <div class="text-center space-y-2">
+        <h1 class="text-3xl font-bold text-slate-800">Tài liệu & Kiến trúc Hệ thống</h1>
+        <p class="text-slate-500">Thông tin chi tiết về công nghệ, thuật toán và đội ngũ phát triển News AI Pro.</p>
+    </div>
+
+    <!-- GRID LAYOUT -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+        <!-- CỘT TRÁI (2 phần) -->
+        <div class="lg:col-span-2 space-y-8">
+            
+            <!-- 1. MÔ HÌNH DỰ ÁN (PIPELINE) -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                    Luồng xử lý dữ liệu (Data Pipeline)
+                </h2>
+                
+                <!-- Sơ đồ minh họa bằng CSS Flex -->
+                <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-center">
+                    <!-- Bước 1 -->
+                    <div class="flex-1 p-4 bg-slate-50 rounded-lg border border-slate-200 w-full hover:shadow-md transition">
+                        <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-3 font-bold">1</div>
+                        <h3 class="font-bold text-sm">Thu thập (Crawl)</h3>
+                        <p class="text-xs text-gray-500 mt-1">Requests, BeautifulSoup</p>
+                    </div>
+                    
+                    <!-- Arrow -->
+                    <svg class="w-6 h-6 text-gray-300 transform rotate-90 md:rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+
+                    <!-- Bước 2 -->
+                    <div class="flex-1 p-4 bg-slate-50 rounded-lg border border-slate-200 w-full hover:shadow-md transition">
+                        <div class="w-10 h-10 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center mx-auto mb-3 font-bold">2</div>
+                        <h3 class="font-bold text-sm">Tiền xử lý (NLP)</h3>
+                        <p class="text-xs text-gray-500 mt-1">Underthesea, Tokenize</p>
+                    </div>
+
+                    <!-- Arrow -->
+                    <svg class="w-6 h-6 text-gray-300 transform rotate-90 md:rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+
+                    <!-- Bước 3 -->
+                    <div class="flex-1 p-4 bg-indigo-50 rounded-lg border border-indigo-200 w-full shadow-sm">
+                        <div class="w-10 h-10 bg-indigo-600 text-white rounded-full flex items-center justify-center mx-auto mb-3 font-bold">3</div>
+                        <h3 class="font-bold text-indigo-700 text-sm">AI Phân loại</h3>
+                        <p class="text-xs text-indigo-500 mt-1">Logistic Regression / PhoBERT</p>
+                    </div>
+
+                    <!-- Arrow -->
+                    <svg class="w-6 h-6 text-gray-300 transform rotate-90 md:rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+
+                    <!-- Bước 4 -->
+                    <div class="flex-1 p-4 bg-slate-50 rounded-lg border border-slate-200 w-full hover:shadow-md transition">
+                        <div class="w-10 h-10 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-3 font-bold">4</div>
+                        <h3 class="font-bold text-sm">Dashboard</h3>
+                        <p class="text-xs text-gray-500 mt-1">Django, ApexCharts</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. TÀI LIỆU NGHIÊN CỨU & THAM KHẢO -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    Tài liệu tham khảo
+                </h2>
+                <div class="space-y-4">
+                    <!-- Tài liệu 1 -->
+                    <a href="https://github.com/undertheseanlp/underthesea" target="_blank" class="flex items-start p-3 hover:bg-slate-50 rounded-lg transition group">
+                        <div class="flex-shrink-0 w-10 h-10 bg-slate-100 rounded flex items-center justify-center text-slate-500 group-hover:bg-indigo-100 group-hover:text-indigo-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-sm font-bold text-slate-700 group-hover:text-indigo-700">Underthesea NLP Toolkit</h3>
+                            <p class="text-xs text-slate-500 mt-1">Thư viện xử lý ngôn ngữ tự nhiên tiếng Việt tốt nhất hiện nay: Tách từ, POS Tagging, NER.</p>
+                        </div>
+                    </a>
+
+                    <!-- Tài liệu 2 -->
+                    <a href="https://github.com/VinAIResearch/PhoBERT" target="_blank" class="flex items-start p-3 hover:bg-slate-50 rounded-lg transition group">
+                        <div class="flex-shrink-0 w-10 h-10 bg-slate-100 rounded flex items-center justify-center text-slate-500 group-hover:bg-indigo-100 group-hover:text-indigo-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-sm font-bold text-slate-700 group-hover:text-indigo-700">PhoBERT: Pre-trained Language Models for Vietnamese</h3>
+                            <p class="text-xs text-slate-500 mt-1">Nghiên cứu của VinAI về mô hình ngôn ngữ tiếng Việt (State-of-the-art).</p>
+                        </div>
+                    </a>
+                    
+                    <!-- Tài liệu 3 -->
+                    <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html" target="_blank" class="flex items-start p-3 hover:bg-slate-50 rounded-lg transition group">
+                        <div class="flex-shrink-0 w-10 h-10 bg-slate-100 rounded flex items-center justify-center text-slate-500 group-hover:bg-indigo-100 group-hover:text-indigo-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-sm font-bold text-slate-700 group-hover:text-indigo-700">TF-IDF & Logistic Regression</h3>
+                            <p class="text-xs text-slate-500 mt-1">Thuật toán nền tảng đang được sử dụng trong project này cho hiệu năng cao và tốc độ nhanh.</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 3. API DOCUMENTATION -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    Developer API
+                </h2>
+                <div class="bg-slate-900 rounded-lg p-4 overflow-x-auto">
+                    <p class="text-xs text-slate-400 mb-2">// Endpoint phân tích nội dung</p>
+                    <code class="text-sm font-mono text-green-400">POST /api/analyze/</code>
+                    <div class="mt-2">
+                        <p class="text-xs text-slate-400">Request Body:</p>
+                        <pre class="text-xs text-yellow-300 font-mono mt-1">
+{
+    "url": "https://vnexpress.net/...",
+    "content": "Hoặc dán nội dung text..."
+}</pre>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- CỘT PHẢI (1 phần) -->
+        <div class="space-y-8">
+            
+            <!-- 4. ADMIN PROFILE -->
+            <div class="bg-white rounded-xl shadow-lg border border-indigo-100 p-6 text-center relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-24 bg-gradient-to-r from-indigo-500 to-violet-500"></div>
+                
+                <div class="relative z-10">
+                    <img class="w-24 h-24 rounded-full border-4 border-white shadow-md mx-auto mb-4 object-cover" src="https://ui-avatars.com/api/?name=Admin+Master&background=random&size=256" alt="Admin">
+                    <h3 class="text-xl font-bold text-slate-800">Trần Ngọc Ánh</h3>
+                    <p class="text-indigo-600 font-medium text-sm">Lead NLP Engineer</p>
+                    
+                    <div class="mt-4 text-sm text-slate-500">
+                        Chịu trách nhiệm phát triển mô hình lõi, tối ưu hóa thuật toán và vận hành hệ thống News AI.
+                    </div>
+
+                    <div class="mt-6 flex justify-center space-x-3">
+                        <a href="#" class="p-2 bg-slate-100 rounded-full text-slate-600 hover:bg-indigo-100 hover:text-indigo-600 transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+                        <a href="#" class="p-2 bg-slate-100 rounded-full text-slate-600 hover:bg-blue-100 hover:text-blue-600 transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. TECH STACK (Công nghệ) -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                <h3 class="font-bold text-slate-800 mb-4">Công nghệ lõi (Tech Stack)</h3>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full border border-green-200">Python 3.10</span>
+                    <span class="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full border border-emerald-200">Django 4.2</span>
+                    <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full border border-blue-200">MySQL</span>
+                    <span class="px-3 py-1 bg-yellow-100 text-yellow-700 text-xs font-bold rounded-full border border-yellow-200">Underthesea NLP</span>
+                    <span class="px-3 py-1 bg-orange-100 text-orange-700 text-xs font-bold rounded-full border border-orange-200">Scikit-learn</span>
+                    <span class="px-3 py-1 bg-cyan-100 text-cyan-700 text-xs font-bold rounded-full border border-cyan-200">Tailwind CSS</span>
+                    <span class="px-3 py-1 bg-purple-100 text-purple-700 text-xs font-bold rounded-full border border-purple-200">Alpine.js</span>
+                </div>
+            </div>
+
+            <!-- 6. ROADMAP (Lộ trình) -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                <h3 class="font-bold text-slate-800 mb-4">Lộ trình phát triển</h3>
+                <ul class="space-y-4 relative border-l-2 border-indigo-100 ml-2">
+                    <li class="pl-4 relative">
+                        <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-green-500 border-2 border-white"></div>
+                        <h4 class="text-sm font-bold text-slate-800">Giai đoạn 1 (Hiện tại)</h4>
+                        <p class="text-xs text-slate-500">Hoàn thiện Dashboard, Crawler đa nguồn, AI phân loại cơ bản.</p>
+                    </li>
+                    <li class="pl-4 relative">
+                        <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-gray-300 border-2 border-white"></div>
+                        <h4 class="text-sm font-bold text-slate-800">Giai đoạn 2</h4>
+                        <p class="text-xs text-slate-500">Tích hợp PhoBERT, Phân tích cảm xúc (Sentiment), Xuất báo cáo PDF.</p>
+                    </li>
+                    <li class="pl-4 relative">
+                        <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-gray-300 border-2 border-white"></div>
+                        <h4 class="text-sm font-bold text-slate-800">Giai đoạn 3</h4>
+                        <p class="text-xs text-slate-500">Mobile App, API thương mại hóa, Hệ thống gợi ý tin tức.</p>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

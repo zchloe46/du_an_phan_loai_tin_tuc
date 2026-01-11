@@ -1,0 +1,225 @@
+{% extends 'base.html' %}
+{% load color_filters %}
+
+{% block title %}Quản lý Tin tức{% endblock %}
+
+{% block content %}
+<!-- THANH CÔNG CỤ -->
+<div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 mb-6">
+    <form method="GET" class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+            <!-- Search -->
+            <div class="md:col-span-4">
+                <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1 block">Tìm kiếm</label>
+                <input type="text" name="q" value="{{ search_query }}" placeholder="Nhập từ khóa..." class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500">
+            </div>
+            <!-- Category -->
+            <div class="md:col-span-3">
+                <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1 block">Chủ đề</label>
+                <select name="category" onchange="this.form.submit()" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white">
+                    <option value="">Tất cả</option>
+                    {% for cat in categories %}
+                        <option value="{{ cat.slug }}" {% if current_cat == cat.slug %}selected{% endif %}>{{ cat.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- Date Range -->
+            <div class="md:col-span-2">
+                <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1 block">Từ ngày</label>
+                <input type="date" name="start_date" value="{{ start_date }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+            </div>
+            <div class="md:col-span-2">
+                <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1 block">Đến ngày</label>
+                <input type="date" name="end_date" value="{{ end_date }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+            </div>
+            <!-- Submit -->
+            <div class="md:col-span-1">
+                <button type="submit" class="w-full px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition shadow-md">Lọc</button>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- THÔNG BÁO KHI ĐANG LỌC THEO ĐỘ TIN CẬY -->
+{% if conf_level %}
+<div class="mb-4 flex items-center justify-between p-4 rounded-lg border 
+    {% if conf_level == 'high' %}bg-green-50 border-green-200 text-green-800
+    {% elif conf_level == 'medium' %}bg-yellow-50 border-yellow-200 text-yellow-800
+    {% else %}bg-red-50 border-red-200 text-red-800{% endif %}">
+    
+    <div class="flex items-center">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
+        <span class="font-bold mr-1">Đang lọc:</span> 
+        Các bài viết có độ tin cậy AI 
+        {% if conf_level == 'high' %}Cao (>80%){% elif conf_level == 'medium' %}Trung bình (50-80%){% else %}Thấp (<50%){% endif %}
+    </div>
+
+    <a href="{% url 'home' %}" class="text-sm underline hover:no-underline font-medium">Xóa bộ lọc</a>
+</div>
+{% endif %}
+<!-- BẢNG DỮ LIỆU -->
+<div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col h-full">
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider w-16">Ảnh</th>
+                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Bài viết</th>
+                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">AI Phân tích</th>
+                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Thời gian</th>
+                    <th class="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider w-24">Xóa</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                {% for article in articles %}
+                <!-- CLICK ROW TO EDIT -->
+                <tr onclick="window.location.href='{% url 'article_update' article.pk %}'" class="hover:bg-indigo-50 transition duration-150 cursor-pointer group">
+                    <td class="px-6 py-4">
+                        <img class="h-10 w-10 rounded-md object-cover border" src="{{ article.image_url|default:'https://via.placeholder.com/150' }}">
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="text-sm font-semibold text-gray-900 group-hover:text-indigo-600 mb-1 line-clamp-1">{{ article.title }}</div>
+                        <p class="text-xs text-gray-500 line-clamp-1 w-64">{{ article.summary }}</p>
+                    </td>
+                    <!-- Cột Độ tin cậy / Phân loại -->
+                    <td class="px-6 py-4">
+                        <div class="flex flex-col items-start gap-2">
+                            <!-- Badge Category -->
+                            <span class="px-2 py-0.5 text-xs font-bold rounded border {{ article.category.name|category_color }}">
+                                {{ article.category.name|default:"Chưa phân loại" }}
+                            </span>
+
+                            <!-- LOGIC HIỂN THỊ ĐỘ TIN CẬY -->
+                            {% if article.is_reviewed %}
+                                <!-- TRƯỜNG HỢP 1: ĐÃ ĐƯỢC CON NGƯỜI DUYỆT (100%) -->
+                                <div class="group relative flex items-center cursor-help">
+                                    <!-- Huy hiệu Verified -->
+                                    <span class="flex items-center text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded border border-blue-200">
+                                        <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                        Đã duyệt (100%)
+                                    </span>
+                                    
+                                    <!-- Tooltip: Hiển thị lịch sử gốc (Chỉ hiện khi hover) -->
+                                    <div class="absolute bottom-full left-0 mb-2 w-48 bg-gray-800 text-white text-xs rounded p-2 hidden group-hover:block z-50 shadow-lg">
+                                        <p class="font-bold text-gray-300 border-b border-gray-600 pb-1 mb-1">Lịch sử AI:</p>
+                                        <p>Ban đầu AI chấm: <span class="font-bold text-yellow-400">{% widthratio article.original_confidence 1 100 %}%</span></p>
+                                        <p class="italic text-gray-400 mt-1">Đã được Admin chỉnh sửa.</p>
+                                        <!-- Mũi tên tooltip -->
+                                        <div class="absolute top-full left-4 -mt-1 border-4 border-transparent border-t-gray-800"></div>
+                                    </div>
+                                </div>
+
+                            {% else %}
+                                <!-- TRƯỜNG HỢP 2: AI TỰ ĐOÁN (HIỂN THỊ THANH MÀU CŨ) -->
+                                {% with score=article.confidence|default:0 %}
+                                <div class="flex items-center w-full max-w-[120px]" title="AI tự động phân loại">
+                                    <div class="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden mr-2">
+                                        <div class="h-full rounded-full 
+                                            {% if score >= 0.8 %}bg-green-500
+                                            {% elif score >= 0.5 %}bg-yellow-500
+                                            {% else %}bg-red-500{% endif %}" 
+                                            style="width: {% widthratio score 1 100 %}%"></div>
+                                    </div>
+                                    <span class="text-[10px] font-bold text-gray-400">{% widthratio score 1 100 %}%</span>
+                                </div>
+                                {% endwith %}
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 text-sm text-gray-500">
+                        {{ article.published_date|date:"d/m/Y" }}<br>
+                        {% comment %} <span class="text-xs text-gray-400">{{ article.crawled_at|date:"H:i" }}</span> {% endcomment %}
+                    </td>
+                    <!-- NÚT XÓA AN TOÀN -->
+                    <td class="px-6 py-4 text-right">
+                        <form method="POST" action="{% url 'article_delete' article.pk %}" 
+                            onsubmit="return confirm('Bạn có chắc chắn muốn xóa bài viết này không?');" 
+                            class="inline-block"
+                            onclick="event.stopPropagation()"> <!-- Chặn click dòng -->
+                            {% csrf_token %}
+                            <button type="submit" 
+                            class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white border border-gray-200 text-gray-400 hover:text-red-600 hover:bg-red-50 hover:border-red-200 transition shadow-sm"
+                            title="Xóa bài viết">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="5" class="px-6 py-10 text-center text-gray-500 italic">Chưa có bài viết nào.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- PHÂN TRANG (PAGINATION) -->
+
+    <!-- PHÂN TRANG CHUẨN MẪU -->
+{% if articles.has_other_pages %}
+<div class="px-6 py-6 border-t border-gray-100 flex items-center justify-center">
+    <nav class="flex items-center gap-1" aria-label="Pagination">
+        
+        <!-- 1. Nút Previous -->
+        {% if articles.has_previous %}
+        <a href="?page={{ articles.previous_page_number }}&q={{ search_query }}&category={{ current_cat }}&start_date={{ start_date }}&end_date={{ end_date }}&confidence_level={{ conf_level }}" 
+           class="flex items-center px-3 py-2 text-sm font-medium text-gray-500 hover:text-indigo-600 transition-colors rounded-lg group">
+            <svg class="w-4 h-4 mr-1 text-gray-400 group-hover:text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            Previous
+        </a>
+        {% else %}
+        <span class="flex items-center px-3 py-2 text-sm font-medium text-gray-300 cursor-not-allowed">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            Previous
+        </span>
+        {% endif %}
+
+        <!-- Spacer nhỏ -->
+        <div class="w-2"></div>
+
+        <!-- 2. Logic Số trang (1 2 3 ... 100) -->
+        {% for i in articles.paginator.page_range %}
+            
+            {% if i == articles.paginator.page_range.start or i == articles.paginator.page_range.stop or i == articles.number or i > articles.number|add:"-2" and i < articles.number|add:"2" %}
+                
+                {% if articles.number == i %}
+                    <!-- Trang hiện tại (Active Style: Nền nhạt, bo góc) -->
+                    <span class="px-4 py-2 text-sm font-bold text-indigo-600 bg-indigo-50 rounded-lg border border-indigo-100 shadow-sm">
+                        {{ i }}
+                    </span>
+                {% else %}
+                    <!-- Trang thường (Inactive Style: Text xám) -->
+                    <a href="?page={{ i }}&q={{ search_query }}&category={{ current_cat }}&start_date={{ start_date }}&end_date={{ end_date }}&confidence_level={{ conf_level }}" 
+                       class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-indigo-600 hover:bg-gray-50 rounded-lg transition-all">
+                        {{ i }}
+                    </a>
+                {% endif %}
+
+            {% elif i == articles.number|add:"-2" or i == articles.number|add:"2" %}
+                <!-- Dấu ba chấm -->
+                <span class="px-2 text-gray-400 tracking-widest text-sm">...</span>
+            {% endif %}
+            
+        {% endfor %}
+
+        <!-- Spacer nhỏ -->
+        <div class="w-2"></div>
+
+        <!-- 3. Nút Next -->
+        {% if articles.has_next %}
+        <a href="?page={{ articles.next_page_number }}&q={{ search_query }}&category={{ current_cat }}&start_date={{ start_date }}&end_date={{ end_date }}&confidence_level={{ conf_level }}" 
+           class="flex items-center px-3 py-2 text-sm font-medium text-gray-500 hover:text-indigo-600 transition-colors rounded-lg group">
+            Next
+            <svg class="w-4 h-4 ml-1 text-gray-400 group-hover:text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+        </a>
+        {% else %}
+        <span class="flex items-center px-3 py-2 text-sm font-medium text-gray-300 cursor-not-allowed">
+            Next
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+        </span>
+        {% endif %}
+
+    </nav>
+</div>
+{% endif %}
+
+</div>
+{% endblock %}

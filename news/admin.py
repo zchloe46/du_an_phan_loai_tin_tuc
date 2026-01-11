@@ -8,4 +8,4 @@ class ArticleAdmin(admin.ModelAdmin):
     search_fields = ('title', 'content')
 
 admin.site.register(Category)
-admin.site.register(Tag)
+# admin.site.register(Tag)

@@ -1,0 +1,300 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}News AI Dashboard{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-slate-50 text-slate-800">
+    <div class="flex h-screen overflow-hidden">
+      <!-- SIDEBAR NAVIGATION -->
+      <nav class="w-64 min-w-[220px] max-w-xs px-4 py-6 space-y-3 bg-gray-900">
+        <!-- Dashboard Link -->
+        <a
+          href="{% url 'home' %}"
+          class="group flex items-center px-4 py-3.5 rounded-xl transition-all duration-300 relative overflow-hidden {% if request.resolver_match.url_name == 'home' %} bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-lg shadow-indigo-500/40 translate-x-1 {% else %} text-slate-400 hover:bg-slate-800 hover:text-white {% endif %}"
+        >
+          <!-- Icon -->
+          <svg
+            class="w-5 h-5 mr-3 transition-transform group-hover:scale-110"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+            ></path>
+          </svg>
+          <span class="font-medium">Quản lý tin tức</span>
+
+          <!-- Hiệu ứng Glow khi Active -->
+          {% if request.resolver_match.url_name == 'home' %}
+          <div
+            class="absolute inset-0 bg-white opacity-10 blur-sm rounded-xl"
+          ></div>
+          {% endif %}
+        </a>
+
+        <!-- Thống kê Link -->
+        <a
+          href="{% url 'statistics' %}"
+          class="group flex items-center px-4 py-3.5 rounded-xl transition-all duration-300 relative overflow-hidden {% if request.resolver_match.url_name == 'statistics' %} bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-lg shadow-pink-500/40 translate-x-1 {% else %} text-slate-400 hover:bg-slate-800 hover:text-white {% endif %}"
+        >
+          <svg
+            class="w-5 h-5 mr-3 transition-transform group-hover:scale-110"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+            ></path>
+          </svg>
+          <span class="font-medium">Thống kê & Biểu đồ</span>
+        </a>
+
+        <!-- Thêm bài mới Link -->
+        <a
+          href="{% url 'article_create' %}"
+          class="group flex items-center px-4 py-3.5 rounded-xl transition-all duration-300 relative overflow-hidden {% if request.resolver_match.url_name == 'article_create' %} bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-500/40 translate-x-1 {% else %} text-slate-400 hover:bg-slate-800 hover:text-white {% endif %}"
+        >
+          <svg
+            class="w-5 h-5 mr-3 transition-transform group-hover:scale-110"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 4v16m8-8H4"
+            ></path>
+          </svg>
+          <span class="font-medium">Thêm bài mới</span>
+        </a>
+        <!-- Category & Tags Link -->
+        <a
+          href="{% url 'category_list' %}"
+          class="group flex items-center px-4 py-3.5 rounded-xl transition-all duration-300 relative overflow-hidden {% if 'categories' in request.path %} bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-lg shadow-orange-500/40 translate-x-1 {% else %} text-slate-400 hover:bg-slate-800 hover:text-white {% endif %}"
+        >
+          <svg
+            class="w-5 h-5 mr-3 transition-transform group-hover:scale-110"
+            fill="none"``
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+            ></path>
+          </svg>
+          <span class="font-medium">Danh mục & Tags</span>
+        </a>
+        <!-- About Link -->
+        <a
+          href="{% url 'about' %}"
+          class="group flex items-center px-4 py-3.5 rounded-xl transition-all duration-300 relative overflow-hidden {% if request.resolver_match.url_name == 'about' %} bg-gradient-to-r from-slate-600 to-slate-500 text-white shadow-lg shadow-slate-500/40 translate-x-1 {% else %} text-slate-400 hover:bg-slate-800 hover:text-white {% endif %}"
+        >
+          <svg
+            class="w-5 h-5 mr-3 transition-transform group-hover:scale-110"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
+          <span class="font-medium">Tài liệu & Hệ thống</span>
+        </a>
+      </nav>
+
+      <!-- MAIN CONTENT -->
+      <div class="flex-1 flex flex-col overflow-hidden">
+        <!-- HEADER -->
+        <header
+          class="bg-white shadow-sm h-16 flex items-center justify-between px-6 z-10"
+        >
+          <div class="text-lg font-semibold text-gray-700">Dashboard</div>
+
+          <div class="flex items-center gap-3">
+            <!-- 1. NÚT CRAWL THỦ CÔNG (MỚI THÊM) -->
+            <a
+              href="{% url 'trigger_crawl' %}"
+              class="flex items-center px-3 py-1.5 bg-white border border-indigo-200 text-indigo-700 rounded-lg hover:bg-indigo-50 hover:border-indigo-300 transition text-sm font-medium shadow-sm group"
+            >
+              <svg
+                class="w-4 h-4 mr-2 group-hover:rotate-180 transition-transform duration-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                ></path>
+              </svg>
+              Quét ngay
+            </a>
+
+            <!-- 2. HỆ THỐNG AUTO CRAWL (Alpine.js) -->
+            <div
+              x-data="crawlerControl()"
+              x-init="initStatus()"
+              class="flex items-center gap-2 bg-slate-50 p-1 rounded-lg border border-slate-200 shadow-sm"
+            >
+              <select
+                x-model="minutes"
+                :disabled="isRunning"
+                class="text-sm border-none bg-transparent focus:ring-0 cursor-pointer py-1 pl-2 pr-6 font-medium text-slate-700 outline-none"
+              >
+                <option value="1">1 phút</option>
+                <option value="10">10 phút</option>
+                <option value="15">15 phút</option>
+                <option value="30">30 phút</option>
+              </select>
+              <button
+                @click="toggleCrawl()"
+                class="flex items-center px-3 py-1.5 rounded-md text-sm font-bold transition-all shadow-sm"
+                :class="isRunning ? 'bg-red-50 text-red-600 border border-red-200 hover:bg-red-100' : 'bg-indigo-600 text-white hover:bg-indigo-700'"
+              >
+                <svg
+                  x-show="isRunning"
+                  class="animate-spin -ml-1 mr-2 h-4 w-4 text-red-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                <svg
+                  x-show="!isRunning"
+                  class="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                  ></path>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+                <span x-text="isRunning ? 'Dừng Auto' : 'Chạy Auto'"></span>
+              </button>
+            </div>
+
+            <!-- User -->
+            <div class="flex items-center border-l pl-4 ml-2">
+              <img
+                class="h-8 w-8 rounded-full border border-gray-300"
+                src="https://ui-avatars.com/api/?name=Admin&background=random"
+                alt="Avatar"
+              />
+            </div>
+          </div>
+        </header>
+
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-slate-50 p-6">
+          {% if messages %} {% for message in messages %}
+          <div
+            class="mb-4 p-4 rounded-lg bg-green-50 text-green-700 border border-green-200 shadow-sm text-sm font-medium flex items-center"
+          >
+            <svg
+              class="w-5 h-5 mr-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
+            </svg>
+            {{ message }}
+          </div>
+          {% endfor %} {% endif %} {% block content %}{% endblock %}
+        </main>
+      </div>
+    </div>
+
+    <script>
+      function crawlerControl() {
+        return {
+          isRunning: false,
+          minutes: "15",
+          initStatus() {
+            fetch('{% url "crawler_config" %}')
+              .then((r) => r.json())
+              .then((d) => {
+                this.isRunning = d.is_running;
+                this.minutes = d.interval.toString();
+              })
+              .catch((e) => console.log("API Error"));
+          },
+          toggleCrawl() {
+            const action = this.isRunning ? "stop" : "start";
+            const fd = new FormData();
+            fd.append("action", action);
+            fd.append("minutes", this.minutes);
+            fd.append("csrfmiddlewaretoken", "{{ csrf_token }}");
+            fetch('{% url "crawler_config" %}', { method: "POST", body: fd })
+              .then((r) => r.json())
+              .then((d) => {
+                this.isRunning = d.status === "running";
+              });
+          },
+        };
+      }
+    </script>
+  </body>
+</html>

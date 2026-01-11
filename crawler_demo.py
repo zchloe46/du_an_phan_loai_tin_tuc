@@ -1,10 +1,12 @@
 # crawler_demo.py
+import sys
 import requests
 from bs4 import BeautifulSoup
 import csv
 import time
 
 # Giả lập trình duyệt để không bị chặn
+sys.stdout.reconfigure(encoding='utf-8')
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
 
 def get_articles(category_url, label, limit=20):
@@ -46,17 +48,27 @@ def get_articles(category_url, label, limit=20):
 
 # Chạy thử
 if __name__ == "__main__":
-    # Lấy 20 bài Kinh doanh
-    biz_news = get_articles("https://vnexpress.net/kinh-doanh", "Kinh doanh")
-    # Lấy 20 bài Thể thao
-    sport_news = get_articles("https://vnexpress.net/the-thao", "Thể thao")
-    
-    all_news = biz_news + sport_news
-    
+    # Danh sách các lĩnh vực và url tương ứng
+    categories = [
+        ("https://vnexpress.net/kinh-doanh", "Kinh doanh"),
+        ("https://vnexpress.net/the-thao", "Thể thao"),
+        ("https://vnexpress.net/phap-luat", "Pháp luật"),
+        ("https://vnexpress.net/chinh-tri", "Chính trị"),
+        ("https://vnexpress.net/suc-khoe", "Sức khỏe"),
+        ("https://vnexpress.net/the-gioi", "Thế giới"),
+        ("https://vnexpress.net/so-hoa", "Vi tính"),
+        ("https://vnexpress.net/khoa-hoc", "Khoa học"),
+        ("https://vnexpress.net/giai-tri/van-hoa", "Văn hóa"),
+        ("https://vnexpress.net/cong-nghe", "Công nghệ"),
+    ]
+
+    all_news = []
+    for url, label in categories:
+        all_news += get_articles(url, label)
+
     # Lưu ra file CSV để dùng cho bước sau
     with open('dataset_demo.csv', 'w', newline='', encoding='utf-8') as f:
         writer = csv.writer(f)
         writer.writerow(['Title', 'Content', 'Label'])
         writer.writerows(all_news)
-        
     print("Xong! Đã có dữ liệu demo.")
