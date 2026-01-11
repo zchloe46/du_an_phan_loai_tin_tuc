@@ -29,7 +29,7 @@ Hệ thống phân loại tin tức tự động sử dụng Machine Learning v�
 ### 1. Clone repository
 
 ```bash
-git clone https://github.com/your-username/du_an_phan_loai_tin_tuc.git
+git clone https://github.com/zchloe46/du_an_phan_loai_tin_tuc.git
 cd du_an_phan_loai_tin_tuc
 ```
 
@@ -165,4 +165,3 @@ Mọi đóng góp đều được chào đón! Vui lòng tạo issue hoặc pull
 ## License
 
 MIT License
-
